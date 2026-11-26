@@ -4,6 +4,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { pool } from '../db/pool';
 import { comparePassword } from './crypt';
 
+// this function checks whether the username and password match
 async function verify(username, password, done) {
 	try {
 		const { rows } = pool.query('SELECT * FROM users WHERE username = $1', [
@@ -19,6 +20,7 @@ async function verify(username, password, done) {
 			return done(null, false, { message: 'Incorrect password' });
 		}
 		return done(null, user);
+		// user is passed through serialize as part of passport
 	} catch (error) {
 		done(error);
 	}
@@ -28,10 +30,12 @@ const strategy = new LocalStrategy(verify);
 
 passport.use(strategy);
 
+// registers user.id to the session only once the login is successful due to done(null, user)
 passport.serializeUser((user, done) => {
 	done(null, user.id);
 });
 
+// runs thereafter and takes the user full information and sets as req.use. id comes from serialize user.id
 passport.deserializeUser(async (id, done) => {
 	try {
 		const { rows } = pool.query('SELECT * FROM users WHERE id = $1', [id]);
