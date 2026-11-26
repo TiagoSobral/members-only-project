@@ -5,15 +5,20 @@ import session from 'express-session';
 import './authentication/passport.js';
 import { pool } from './db/pool.js';
 import { indexRouter } from './routes/indexRouter.js';
+import connectPgSimple from 'connect-pg-simple';
 
 const app = express();
 const PORT = 3000;
 const __dirname = import.meta.dirname;
 const assetsPath = path.join(__dirname, 'styles');
+const PgSession = connectPgSimple(session);
 
 app.use(
 	session({
-		store: pool,
+		store: new PgSession({
+			pool: pool,
+			createTableIfMissing: true,
+		}),
 		secret: process.env.COOKIE_SECRET,
 		resave: false,
 		saveUninitialized: false,
