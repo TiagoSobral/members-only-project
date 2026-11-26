@@ -1,8 +1,7 @@
-import { session } from 'express-session';
-import passport, { use } from 'passport';
+import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { pool } from '../db/pool';
-import { comparePassword } from './crypt';
+import { pool } from '../db/pool.js';
+import { comparePassword } from './crypt.js';
 
 // this function checks whether the username and password match
 async function verify(username, password, done) {
