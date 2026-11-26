@@ -1,21 +1,12 @@
 import { session } from 'express-session';
-import passport from 'passport';
+import passport, { use } from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { pool } from '../db/pool';
 import { comparePassword } from './crypt';
 
-passport.use(
-	session({
-		store: pool,
-		secret: process.env.FOO_COOKIE_SECRET,
-		resave: false,
-		cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
-	}),
-);
-
 async function verify(username, password, done) {
 	try {
-		const { rows } = pool.query('SELECT * FROM users WHERE username = ?', [
+		const { rows } = pool.query('SELECT * FROM users WHERE username = $1', [
 			username,
 		]);
 		const user = rows[0];
@@ -32,3 +23,22 @@ async function verify(username, password, done) {
 		done(error);
 	}
 }
+
+const strategy = new LocalStrategy(verify);
+
+passport.use(strategy);
+
+passport.serializeUser((user, done) => {
+	done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+	try {
+		const { rows } = pool.query('SELECT * FROM users WHERE id = $1', [id]);
+		const user = rows[0];
+
+		done(null, user);
+	} catch (error) {
+		done(error);
+	}
+});
