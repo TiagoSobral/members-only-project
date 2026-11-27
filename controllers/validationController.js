@@ -43,3 +43,5 @@ function validation(req, res) {
 		});
 	}
 }
+
+export { validationLoginFields, validationSignupFields, validation };
