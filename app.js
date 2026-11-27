@@ -13,11 +13,11 @@ const __dirname = import.meta.dirname;
 const assetsPath = path.join(__dirname, 'styles');
 const PgSession = connectPgSimple(session);
 
+// creates a session table for the database to store session data in a postgresql database
 app.use(
 	session({
 		store: new PgSession({
 			pool: pool,
-			createTableIfMissing: true,
 		}),
 		secret: process.env.COOKIE_SECRET,
 		resave: false,
