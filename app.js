@@ -28,7 +28,7 @@ app.use(
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(assetsPath));
-app.get('/', indexRouter);
+app.use('/', indexRouter);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
