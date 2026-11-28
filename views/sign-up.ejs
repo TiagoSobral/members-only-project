@@ -7,14 +7,28 @@
 	</head>
 	<body>
 		<h1>Sign up</h1>
-		<form action="/sign-up">
-			<label for="username"></label>
-			<input type="text" id="username" name="username" placeholder="username" />
+		<form action="/sign-up" method="post">
+			<label for="firstName"></label>
+			<input
+				type="text"
+				name="firstName"
+				id="firstName"
+				placeholder="given name"
+			/>
+			<label for="lastName"></label>
+			<input type="text" name="lastName" id="lastName" placeholder="family name" />
+			<label for="signupUsername"></label>
+			<input
+				type="text"
+				id="signupUsername"
+				name="signupUsername"
+				placeholder="username"
+			/>
 			<label for="userPassword"></label>
 			<input
 				type="password"
-				name="userPassword"
-				id="userPassword"
+				name="signupPassword"
+				id="signupPassword"
 				placeholder="password"
 			/>
 			<label for="confirmPassword"></label>
