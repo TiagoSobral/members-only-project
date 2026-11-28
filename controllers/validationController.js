@@ -25,7 +25,9 @@ const validationSignupFields = [
 			minNumbers: 2,
 			returnScore: true,
 		}),
-	body('confirmPassword').trim().notEmpty().withMessage('this field is empty'),
+	body('confirmPassword').custom((value, { req }) => {
+		return value === req.body.signupPassword;
+	}),
 ];
 
 function validation(req, res) {
