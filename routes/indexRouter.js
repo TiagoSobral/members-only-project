@@ -1,12 +1,16 @@
 import { Router } from 'express';
 import {
 	validation,
+	validationLoginFields,
 	validationSignupFields,
 } from '../controllers/validationController.js';
 
 const indexRouter = Router();
 
 indexRouter.get('/', (req, res) => {
+	res.render('index');
+});
+indexRouter.get('/login', [validationLoginFields, validation], (req, res) => {
 	res.render('index');
 });
 indexRouter.get(
