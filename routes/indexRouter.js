@@ -4,6 +4,7 @@ import {
 	validationLoginFields,
 	validationSignupFields,
 } from '../controllers/validationController.js';
+import { signUp } from '../controllers/signupControllers.js';
 
 const indexRouter = Router();
 
@@ -13,7 +14,8 @@ indexRouter.get('/', (req, res) => {
 indexRouter.get('/login', [validationLoginFields, validation], (req, res) => {
 	res.render('index');
 });
-indexRouter.get(
+indexRouter.get('/sign-up', signUp);
+indexRouter.post(
 	'/sign-up',
 	[validationSignupFields, validation],
 	(req, res) => {
