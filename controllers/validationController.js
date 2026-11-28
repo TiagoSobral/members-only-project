@@ -1,27 +1,23 @@
 import { body, validationResult } from 'express-validator';
 
 const validationLoginFields = [
-	body('loginUsername')
-		.trim()
-		.notEmpty()
-		.withMessage('Username cannot be empty'),
-	body('loginPassword')
-		.trim()
-		.notEmpty()
-		.withMessage('Password cannot be empty'),
+	body('loginUsername').trim().notEmpty().withMessage('username is empty'),
+	body('loginPassword').trim().notEmpty().withMessage('password is empty'),
 ];
 
 const validationSignupFields = [
+	body('firstName').trim().notEmpty().withMessage('name required'),
+	body('lastName').trim().notEmpty().withMessage('Username required'),
 	body('signupUsername')
 		.trim()
 		.notEmpty()
-		.withMessage('Username required')
+		.withMessage('username is empty')
 		.isEmail()
-		.withMessage('Username must be your email'),
+		.withMessage('username must an email'),
 	body('signupPassword')
 		.trim()
 		.notEmpty()
-		.withMessage('password cannot be empty')
+		.withMessage('password is empty')
 		.isStrongPassword({
 			minLength: 8,
 			minLowercase: 2,
@@ -29,10 +25,7 @@ const validationSignupFields = [
 			minNumbers: 2,
 			returnScore: true,
 		}),
-	body('confirmPassword')
-		.trim()
-		.notEmpty()
-		.withMessage('this field cannot be empty'),
+	body('confirmPassword').trim().notEmpty().withMessage('this field is empty'),
 ];
 
 function validation(req, res) {
