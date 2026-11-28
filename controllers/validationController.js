@@ -36,8 +36,14 @@ const validationSignupFields = [
 ];
 
 function validation(req, res) {
+	let route = req.route.path;
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
+		if (route == '/login') {
+			return res.status(400).render('index', {
+				errors: errors.array(),
+			});
+		}
 		return res.status(400).render('sign-up', {
 			errors: errors.array(),
 		});
